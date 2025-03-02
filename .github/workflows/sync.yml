@@ -1,0 +1,20 @@
+name: Sync sing-box-ruleset
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # 每6小时同步一次
+  workflow_dispatch:       # 允许手动触发
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: sing-box-ruleset
+      - name: Sync from upstream
+        uses: repo-sync/github-sync@v2
+        with:
+          source_repo: "DustinWin/ruleset_geodata"
+          source_branch: "sing-box-ruleset"
+          destination_branch: "sing-box-ruleset"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
